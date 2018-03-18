@@ -1,37 +1,66 @@
-## Welcome to GitHub Pages
+# FSX simconnect-as-a-service
 
-You can use the [editor on GitHub](https://github.com/marcosox/fsx-saas/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+FSX informations exposed by a JSON HTTP API server
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Installation
+FSX-saas is portable, you just need to download the latest jar from the [releases page] and run it.
 
-### Markdown
+## Usage
+    java -jar path/to/fsx-saas.jar
+    
+To change the application parameters pass the path of a json configuration file:
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+    java -jar path/to/fsx-saas.jar -conf path/to/config.json
 
-```markdown
-Syntax highlighted code block
+The complete configuration file is this:
 
-# Header 1
-## Header 2
-### Header 3
+    {
+        "port": 8080
+        "scanInterval": 1000
+    }
 
-- Bulleted
-- List
+- `port`: tcp listening port for the server
+- `scanInterval`: milliseconds between aircraft requests to fsx
 
-1. Numbered
-2. List
+#### Vertx options
+Since this application is packaged with a Vertx launcher, all the vertx options can be passed.
+For more informations see the [help page](http://vertx.io/docs/vertx-core/java/#_the_vertx_command_line)
 
-**Bold** and _Italic_ and `Code` text
+## Quick start and examples
+- Start FSX and load a flight
+- Start FSX-saas
+- open your browser and point it to [http://127.0.0.1:8080/](http://127.0.0.1:8080/) to see all the available API endpoints
+- See all the aircrafts: [http://127.0.0.1:8080/aircrafts](http://127.0.0.1:8080/aircrafts)
+- See user aircraft: [http://127.0.0.1:8080/aircrafts/0](http://127.0.0.1:8080/aircrafts/0)
+- See all the vors: [http://127.0.0.1:8080/vors](http://127.0.0.1:8080/vors)
+- See all the airports: [http://127.0.0.1:8080/airports](http://127.0.0.1:8080/airports)
 
-[Link](url) and ![Image](src)
-```
+Please note that data is limited to what FSX returns:
+- aircrafts only exist in fsx inside a 199km radius around user aircraft
+- same thing for airports and navigation aids, but since they have a fixed position,
+they are stored forever in the cache since the flight start.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Dependencies
+FSX-saas depends on jSimconnect 0.8, which is **not** included with the code.
+You can download it from the [original author site](http://lc0277.gratisim.fr/jsimconnect.html)
+ or from [this github repository](https://github.com/mharj/jsimconnect).
+ 
+It is needed only for development. Place it in the `lib/` folder and include it as a library in your IDE.
+Library inclusion in the fat jar during build is managed by maven.
 
-### Jekyll Themes
+## Source code
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/marcosox/fsx-saas/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+If you want to develop on this codebase:
+1. clone the repository into your IDE
+2. download the jSimconnect jar and put it in the lib/ folder
+ 
+## Feedback
+If you think there is a bug in the program, or something is missing or wrong with the documentation/support files, feel free to [open an issue].
 
-### Support or Contact
+## License
+This software is released under the LGPL V3 license.
+The license terms are included in the LICENSE file.
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+
+[open an issue]: https://github.com/marcosox/fsx-saas/issues
+[releases page]: https://github.com/marcosox/fsx-saas/releases
