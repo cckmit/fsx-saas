@@ -6,11 +6,11 @@ FSX informations exposed by a JSON HTTP API server
 FSX-saas is portable, you just need to download the latest jar from the [releases page] and run it.
 
 ## Usage
-    java -jar path/to/fsx-saas.jar
+    java -jar path/to/fsx-saas-1.0.0.jar
     
 To change the application parameters pass the path of a json configuration file:
 
-    java -jar path/to/fsx-saas.jar -conf path/to/config.json
+    java -jar path/to/fsx-saas-1.0.0.jar -conf path/to/config.json
 
 The complete configuration file is this:
 
