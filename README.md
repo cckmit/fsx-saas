@@ -6,7 +6,7 @@ This can be used to interface other programs with a running FSX instance via HTT
 
 The exposed data is read-only (e.g. only LIST and RETRIEVE actions are supported).
 
-An example of use of this application is the [FSX web ATC](https://github.com/marcosox/fsx-web-atc) project, which shows the data in a web map.
+An example of use of this application is [FSX web ATC](https://github.com/marcosox/fsx-web-atc), which shows the data in a web map.
 
 ## Download and installation
 FSX-saas is portable, you just need to download the latest jar from the [releases page] and run it.
@@ -37,9 +37,95 @@ For more informations see the [help page](http://vertx.io/docs/vertx-core/java/#
 - Start FSX-saas
 - open your browser and point it to [http://127.0.0.1:8080/](http://127.0.0.1:8080/) to see all the available API endpoints
 - See all the aircrafts: [http://127.0.0.1:8080/aircrafts](http://127.0.0.1:8080/aircrafts)
+```
+[ {
+  "id" : 990,
+  "title" : "de Havilland Dash 8-100 Paint2",
+  "atcType" : "DeHavilland",
+  "atcModel" : "DH8A",
+  "atcID" : "N7048R",
+  "atcAirline" : "American Pacific",
+  "atcFlightNumber" : "1123",
+  "from" : "KBFI",
+  "to" : "KIDA",
+  "latitude" : 47.524769343755345,
+  "longitude" : -122.29564771099874,
+  "altitude" : 25.338651001296956,
+  "altAgl" : 7.339984247004242,
+  "airspeed" : 0,
+  "pitch" : 0.002319927327334881,
+  "bank" : 0.0,
+  "heading" : 56.78009212492774,
+  "aileron" : 0.0,
+  "elevator" : 0.0,
+  "rudder" : 0.0,
+  "throttle" : 0.0
+}, {
+...
+```
 - See user aircraft: [http://127.0.0.1:8080/aircrafts/0](http://127.0.0.1:8080/aircrafts/0)
+```
+{
+  "id" : 0,
+  "title" : "Aircreation582SL red",
+  "atcType" : "Ultralight",
+  "atcModel" : "trike",
+  "atcID" : "",
+  "atcAirline" : "",
+  "atcFlightNumber" : "",
+  "from" : "",
+  "to" : "",
+  "latitude" : 48.502472910349816,
+  "longitude" : -123.01101544961938,
+  "altitude" : 1607.6589068715653,
+  "altAgl" : 1607.6588833676299,
+  "airspeed" : 52,
+  "pitch" : 0.026875153183937073,
+  "bank" : -2.423224722577144E-4,
+  "heading" : 357.5731996999381,
+  "aileron" : -6.103515625E-5,
+  "elevator" : -6.103515625E-5,
+  "rudder" : -6.103515625E-5,
+  "throttle" : 73.236083984375
+}
+```
 - See all the vors: [http://127.0.0.1:8080/vors](http://127.0.0.1:8080/vors)
+```
+[ {
+  "icao" : "ITL",
+  "latitude" : 49.19996581971645,
+  "longitude" : -123.15604135394096,
+  "altitude" : 4.267000198364258,
+  "frequency" : 110550000,
+  "localizer" : 100.01,
+  "glideSlopeAngle" : 3.0,
+  "glideLat" : 49.2051887512207,
+  "glideLon" : -123.19614619016647,
+  "glideAlt" : 4.267000198364258,
+  "flags" : 15
+}, {
+...
+```
 - See all the airports: [http://127.0.0.1:8080/airports](http://127.0.0.1:8080/airports)
+```
+[ {
+  "icao" : "WA77",
+  "latitude" : 47.19565697014332,
+  "longitude" : -122.02205613255501,
+  "altitude" : 224.9420166015625
+}, {
+  "icao" : "7WA3",
+  "latitude" : 48.88611115515232,
+  "longitude" : -122.32861116528511,
+  "altitude" : 48.768001556396484
+}, {
+  "icao" : "7WA5",
+  "latitude" : 48.67287788540125,
+  "longitude" : -123.1757453083992,
+  "altitude" : 3.0480000972747803
+}, {
+...
+```
 
 Please note that data is limited to what FSX returns:
 - aircrafts only exist in fsx inside a 199km radius around user aircraft
