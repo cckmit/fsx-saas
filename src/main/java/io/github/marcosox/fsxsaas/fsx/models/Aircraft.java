@@ -17,6 +17,7 @@ public class Aircraft {
 	private double altitude;
 	private double altAgl;
 	private int airspeed;
+	private double groundSpeed;
 	private double pitch;
 	private double bank;
 	private double heading;
@@ -25,7 +26,7 @@ public class Aircraft {
 	private double rudder;
 	private double throttle;
 
-	public Aircraft(int id, String title, String atcType, String atcModel, String atcID, String atcAirline, String atcFlightNumber, InitPosition ip, double altAgl, double aileron, double elevator, double rudder, double throttle, String from, String to) {
+	public Aircraft(int id, String title, String atcType, String atcModel, String atcID, String atcAirline, String atcFlightNumber, InitPosition ip, double groundSpeed, double altAgl, double aileron, double elevator, double rudder, double throttle, String from, String to) {
 		this.id = id;
 		this.title = title;
 		this.atcType = atcType;
@@ -37,6 +38,7 @@ public class Aircraft {
 		this.longitude = ip.longitude;
 		this.altitude = ip.altitude;
 		this.airspeed = ip.airspeed;
+		this.groundSpeed = groundSpeed;
 		this.pitch = ip.pitch;
 		this.bank = ip.bank;
 		this.heading = ip.heading;
@@ -107,6 +109,10 @@ public class Aircraft {
 
 	public int getAirspeed() {
 		return airspeed;
+	}
+
+	public double getGroundSpeed() {
+		return groundSpeed;
 	}
 
 	public double getPitch() {

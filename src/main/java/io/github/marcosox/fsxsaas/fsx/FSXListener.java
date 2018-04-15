@@ -79,6 +79,7 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 			String to = e.getDataString8();
 			LatLonAlt lla = e.getLatLonAlt();
 			double spd = e.getDataFloat64();
+			double groundSpd = e.getDataFloat64();
 			double agl = e.getDataFloat64();
 			double pit = e.getDataFloat64();
 			double bnk = e.getDataFloat64();
@@ -100,7 +101,7 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 					atcModel,
 					atcID,
 					atcAirline,
-					atcFlightNumber, ip, agl, aileron, elevator, rudder, throttle, from, to));
+					atcFlightNumber, ip, groundSpd, agl, aileron, elevator, rudder, throttle, from, to));
 		}
 	}
 }

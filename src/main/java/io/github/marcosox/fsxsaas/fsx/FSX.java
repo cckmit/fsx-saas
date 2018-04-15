@@ -26,15 +26,20 @@ public class FSX {
 		try {
 			startSimConnect();
 		} catch (IOException e) {
-			System.out.println("Couldn't connect to FSX! The server will not show any object until fsx is running. Start fsx and trigger /cmd/restart");
+			System.out.println("Could not connect to FSX! The server will not show any object until fsx is running. Start fsx and trigger /cmd/restart");
 			e.printStackTrace();
 		}
 	}
 
 	public void startSimConnect() throws IOException {
-		if (simconnect != null) {
-			stopSimConnect();
-			simconnect = null;
+		try {
+			if (simconnect != null) {
+				stopSimConnect();
+				simconnect = null;
+			}
+		} catch (IOException e) {
+			System.out.println("warning closing old instance of simconnect");
+			e.printStackTrace();
 		}
 		simconnect = new SimConnect("fsx-saas");
 		dispatcherTask = new DispatcherTask(simconnect);
@@ -76,6 +81,7 @@ public class FSX {
 		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "AI TRAFFIC TOAIRPORT", null, SimConnectDataType.STRING8);
 		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "STRUCT LATLONALT", null, SimConnectDataType.LATLONALT);
 		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "AIRSPEED TRUE", "KNOTS", SimConnectDataType.FLOAT64);
+		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "GROUND VELOCITY", "KNOTS", SimConnectDataType.FLOAT64);
 		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "PLANE ALT ABOVE GROUND", "FEET", SimConnectDataType.FLOAT64);
 		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "PLANE PITCH DEGREES", "RADIANS", SimConnectDataType.FLOAT64);
 		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "PLANE BANK DEGREES", "RADIANS", SimConnectDataType.FLOAT64);
@@ -86,9 +92,9 @@ public class FSX {
 		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "GENERAL ENG THROTTLE LEVER POSITION:1", "PERCENT", SimConnectDataType.FLOAT64);
 
 		simconnect.subscribeToFacilities(FacilityListType.AIRPORT, REQUEST_ID.AIRPORTS_SCAN);
-		simconnect.subscribeToFacilities(FacilityListType.WAYPOINT, REQUEST_ID.WAYPOINTS_SCAN);
 		simconnect.subscribeToFacilities(FacilityListType.VOR, REQUEST_ID.VOR_SCAN);
 		simconnect.subscribeToFacilities(FacilityListType.NDB, REQUEST_ID.NDB_SCAN);
+		simconnect.subscribeToFacilities(FacilityListType.WAYPOINT, REQUEST_ID.WAYPOINTS_SCAN);
 
 		this.trafficScanID = Vertx.vertx().setPeriodic(scanInterval, e -> {
 			try {
