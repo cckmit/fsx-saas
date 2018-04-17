@@ -8,11 +8,13 @@ import java.util.Map;
 public class ObjectManager {
 
 	private Map<String, Aircraft> aircrafts = new HashMap<>();
+	private Map<String, Boat> boats = new HashMap<>();
 	private Map<String, Airport> airports = new HashMap<>();
 	private Map<String, VOR> vor = new HashMap<>();
 	private Map<String, NDB> ndb = new HashMap<>();
 	private Map<String, Waypoint> waypoints = new HashMap<>();
 	private final Object aircraftsLock = new Object();
+	private final Object boatsLock = new Object();
 
 	public void addAircraft(Aircraft aircraft) {
 		synchronized (this.aircraftsLock) {
@@ -24,6 +26,20 @@ public class ObjectManager {
 		Map<String, Aircraft> val;
 		synchronized (this.aircraftsLock) {
 			val = this.aircrafts;
+		}
+		return val;
+	}
+
+	public void addBoat(Boat boat) {
+		synchronized (this.boatsLock) {
+			boats.put("" + boat.getId(), boat);
+		}
+	}
+
+	public Map<String, Boat> getBoats() {
+		Map<String, Boat> val;
+		synchronized (this.boatsLock) {
+			val = this.boats;
 		}
 		return val;
 	}
@@ -63,6 +79,12 @@ public class ObjectManager {
 	public void clearAircrafts() {
 		synchronized (this.aircraftsLock) {
 			this.aircrafts.clear();
+		}
+	}
+
+	public void clearBoats() {
+		synchronized (this.boatsLock) {
+			this.boats.clear();
 		}
 	}
 

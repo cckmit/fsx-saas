@@ -49,6 +49,8 @@ public class MainVerticle extends AbstractVerticle {
 
 		router.get("/aircrafts").handler(r -> this.handleGetAll(r, manager.getAircrafts()));
 		router.get("/aircrafts/:id").handler(r -> this.handleGetItem(r, manager.getAircrafts()));
+		router.get("/boats").handler(r -> this.handleGetAll(r, manager.getBoats()));
+		router.get("/boats/:id").handler(r -> this.handleGetItem(r, manager.getBoats()));
 		router.get("/airports").handler(r -> this.handleGetAll(r, manager.getAirports()));
 		router.get("/airports/:id").handler(r -> this.handleGetItem(r, manager.getAirports()));
 		router.get("/vors").handler(r -> this.handleGetAll(r, manager.getVors()));

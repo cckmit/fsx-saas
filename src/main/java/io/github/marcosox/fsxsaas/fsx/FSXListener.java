@@ -60,7 +60,8 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 	public void handleSimObjectType(SimConnect simConnect, RecvSimObjectDataByType e) {
 		System.out.println("handleSimObjectType");
 		int requestID = e.getRequestID();
-		if (requestID == REQUEST_ID.TRAFFIC_SCAN.ordinal()) {
+		if (requestID == REQUEST_ID.AIRCRAFTS_SCAN.ordinal()) {
+			System.out.println("Aircraft");
 			int entryNumber = e.getEntryNumber();
 			if (entryNumber == 1) {    // not 0 as docs say!
 				manager.clearAircrafts();
@@ -102,6 +103,32 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 					atcID,
 					atcAirline,
 					atcFlightNumber, ip, groundSpd, agl, aileron, elevator, rudder, throttle, from, to));
+		} else if (requestID == REQUEST_ID.BOATS_SCAN.ordinal()) {
+			System.out.println("Boat");
+			int entryNumber = e.getEntryNumber();
+			if (entryNumber == 1) {    // not 0 as docs say!
+				manager.clearBoats();
+			}
+			int id = e.getObjectID();
+			String title = e.getDataString32();
+			LatLonAlt lla = e.getLatLonAlt();
+			double spd = e.getDataFloat64();
+			double groundSpd = e.getDataFloat64();
+			double agl = e.getDataFloat64();
+			double bnk = e.getDataFloat64();
+			double hdg = e.getDataFloat64();
+			double rudder = e.getDataFloat64();
+			double throttle = e.getDataFloat64();    //doesnt work?
+
+			InitPosition ip = new InitPosition();
+			ip.setLatLonAlt(lla);
+			ip.onGround = false; // set it manually because we didn't receive it
+			ip.pitch = (0);
+			ip.bank = (bnk);
+			ip.heading = (hdg);
+			ip.airspeed = (int) Math.floor(spd);
+
+			manager.addBoat(new Boat(id, title, ip, groundSpd, agl, rudder, throttle));
 		}
 	}
 }

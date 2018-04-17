@@ -17,7 +17,7 @@ public class FSX {
 	private long scanInterval;
 
 	private enum DATA_DEFINITION_ID {
-		AIRCRAFT_DETAIL
+		BOAT_DETAIL, AIRCRAFT_DETAIL
 	}
 
 	public FSX(ObjectManager manager, int scanInterval) {
@@ -91,6 +91,16 @@ public class FSX {
 		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "RUDDER POSITION", "POSITION", SimConnectDataType.FLOAT64);
 		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "GENERAL ENG THROTTLE LEVER POSITION:1", "PERCENT", SimConnectDataType.FLOAT64);
 
+		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "TITLE", null, SimConnectDataType.STRING32);
+		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "STRUCT LATLONALT", null, SimConnectDataType.LATLONALT);
+		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "AIRSPEED TRUE", "KNOTS", SimConnectDataType.FLOAT64);
+		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "GROUND VELOCITY", "KNOTS", SimConnectDataType.FLOAT64);
+		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "PLANE ALT ABOVE GROUND", "FEET", SimConnectDataType.FLOAT64);
+		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "PLANE BANK DEGREES", "RADIANS", SimConnectDataType.FLOAT64);
+		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "PLANE HEADING DEGREES TRUE", "DEGREES", SimConnectDataType.FLOAT64);
+		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "RUDDER POSITION", "POSITION", SimConnectDataType.FLOAT64);
+		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "GENERAL ENG THROTTLE LEVER POSITION:1", "PERCENT", SimConnectDataType.FLOAT64);
+
 		simconnect.subscribeToFacilities(FacilityListType.AIRPORT, REQUEST_ID.AIRPORTS_SCAN);
 		simconnect.subscribeToFacilities(FacilityListType.VOR, REQUEST_ID.VOR_SCAN);
 		simconnect.subscribeToFacilities(FacilityListType.NDB, REQUEST_ID.NDB_SCAN);
@@ -98,7 +108,8 @@ public class FSX {
 
 		this.trafficScanID = Vertx.vertx().setPeriodic(scanInterval, e -> {
 			try {
-				simconnect.requestDataOnSimObjectType(REQUEST_ID.TRAFFIC_SCAN, DATA_DEFINITION_ID.AIRCRAFT_DETAIL, 0, SimObjectType.AIRCRAFT);
+				simconnect.requestDataOnSimObjectType(REQUEST_ID.AIRCRAFTS_SCAN, DATA_DEFINITION_ID.AIRCRAFT_DETAIL, 0, SimObjectType.AIRCRAFT);
+				simconnect.requestDataOnSimObjectType(REQUEST_ID.BOATS_SCAN, DATA_DEFINITION_ID.BOAT_DETAIL, 0, SimObjectType.BOAT);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
