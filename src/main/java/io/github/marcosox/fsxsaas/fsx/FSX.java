@@ -8,6 +8,7 @@ import flightsim.simconnect.recv.DispatcherTask;
 import io.vertx.core.Vertx;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class FSX {
 	private final ObjectManager manager;
@@ -15,7 +16,8 @@ public class FSX {
 	private DispatcherTask dispatcherTask;
 	private long trafficScanID = -1;
 	private long scanInterval;
-
+	private LinkedList<MyDataDefinitionWrapper> aircraftData = new LinkedList<>();
+	private LinkedList<MyDataDefinitionWrapper> boatData = new LinkedList<>();
 	private enum DATA_DEFINITION_ID {
 		BOAT_DETAIL, AIRCRAFT_DETAIL
 	}
@@ -43,9 +45,53 @@ public class FSX {
 		}
 		simconnect = new SimConnect("fsx-saas");
 		dispatcherTask = new DispatcherTask(simconnect);
-		dispatcherTask.addHandlers(new FSXListener(manager));
+		prepareRequests();
+		dispatcherTask.addHandlers(new FSXListener(manager, this.aircraftData, this.boatData));
 		new Thread(dispatcherTask).start();
 		startRequests();
+	}
+
+	private void prepareRequests() {
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("TITLE", null, SimConnectDataType.STRING32));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("ATC TYPE", null, SimConnectDataType.STRING32));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("ATC MODEL", null, SimConnectDataType.STRING32));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("ATC ID", null, SimConnectDataType.STRING32));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("ATC AIRLINE", null, SimConnectDataType.STRING64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("ATC FLIGHT NUMBER", null, SimConnectDataType.STRING8));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("ATC HEAVY", null, SimConnectDataType.INT32));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC STATE", null, SimConnectDataType.STRING8));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC FROMAIRPORT", null, SimConnectDataType.STRING8));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC TOAIRPORT", null, SimConnectDataType.STRING8));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("TRANSPONDER CODE:1", null, SimConnectDataType.INT32));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("STRUCT LATLONALT", null, SimConnectDataType.LATLONALT));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("AIRSPEED TRUE", "KNOTS", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("VERTICAL SPEED", "FEET", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("GROUND VELOCITY", "KNOTS", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("PLANE ALT ABOVE GROUND", "FEET", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("SIM ON GROUND", null, SimConnectDataType.INT32));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("PLANE PITCH DEGREES", "RADIANS", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("PLANE BANK DEGREES", "RADIANS", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("PLANE HEADING DEGREES TRUE", "DEGREES", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("AILERON POSITION", "POSITION", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("ELEVATOR POSITION", "POSITION", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("RUDDER POSITION", "POSITION", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("GENERAL ENG THROTTLE LEVER POSITION:1", "PERCENT", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("AMBIENT WIND VELOCITY", "KNOTS", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("AMBIENT WIND DIRECTION", "DEGREES", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("AMBIENT TEMPERATURE", "CELSIUS", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("AMBIENT PRESSURE", "inHg", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("BAROMETER PRESSURE", "MILLIBARS", SimConnectDataType.FLOAT64));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("AMBIENT VISIBILITY", "KILOMETERS", SimConnectDataType.FLOAT64));
+
+		this.boatData.addLast(new MyDataDefinitionWrapper("TITLE", null, SimConnectDataType.STRING64));
+		this.boatData.addLast(new MyDataDefinitionWrapper("STRUCT LATLONALT", null, SimConnectDataType.LATLONALT));
+		this.boatData.addLast(new MyDataDefinitionWrapper("AIRSPEED TRUE", "KNOTS", SimConnectDataType.FLOAT64));
+		this.boatData.addLast(new MyDataDefinitionWrapper("GROUND VELOCITY", "KNOTS", SimConnectDataType.FLOAT64));
+		this.boatData.addLast(new MyDataDefinitionWrapper("PLANE ALT ABOVE GROUND", "FEET", SimConnectDataType.FLOAT64));
+		this.boatData.addLast(new MyDataDefinitionWrapper("PLANE BANK DEGREES", "RADIANS", SimConnectDataType.FLOAT64));
+		this.boatData.addLast(new MyDataDefinitionWrapper("PLANE HEADING DEGREES TRUE", "DEGREES", SimConnectDataType.FLOAT64));
+		this.boatData.addLast(new MyDataDefinitionWrapper("RUDDER POSITION", "POSITION", SimConnectDataType.FLOAT64));
+		this.boatData.addLast(new MyDataDefinitionWrapper("GENERAL ENG THROTTLE LEVER POSITION:1", "PERCENT", SimConnectDataType.FLOAT64));
 	}
 
 	public void stopSimConnect() throws IOException {
@@ -71,38 +117,16 @@ public class FSX {
 	}
 
 	private void startRequests() throws IOException {
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "TITLE", null, SimConnectDataType.STRING32);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "ATC TYPE", null, SimConnectDataType.STRING32);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "ATC MODEL", null, SimConnectDataType.STRING32);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "ATC ID", null, SimConnectDataType.STRING32);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "ATC AIRLINE", null, SimConnectDataType.STRING64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "ATC FLIGHT NUMBER", null, SimConnectDataType.STRING8);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "AI TRAFFIC FROMAIRPORT", null, SimConnectDataType.STRING8);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "AI TRAFFIC TOAIRPORT", null, SimConnectDataType.STRING8);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "STRUCT LATLONALT", null, SimConnectDataType.LATLONALT);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "AIRSPEED TRUE", "KNOTS", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "GROUND VELOCITY", "KNOTS", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "PLANE ALT ABOVE GROUND", "FEET", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "PLANE PITCH DEGREES", "RADIANS", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "PLANE BANK DEGREES", "RADIANS", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "PLANE HEADING DEGREES TRUE", "DEGREES", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "AILERON POSITION", "POSITION", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "ELEVATOR POSITION", "POSITION", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "RUDDER POSITION", "POSITION", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, "GENERAL ENG THROTTLE LEVER POSITION:1", "PERCENT", SimConnectDataType.FLOAT64);
 
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "TITLE", null, SimConnectDataType.STRING32);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "STRUCT LATLONALT", null, SimConnectDataType.LATLONALT);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "AIRSPEED TRUE", "KNOTS", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "GROUND VELOCITY", "KNOTS", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "PLANE ALT ABOVE GROUND", "FEET", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "PLANE BANK DEGREES", "RADIANS", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "PLANE HEADING DEGREES TRUE", "DEGREES", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "RUDDER POSITION", "POSITION", SimConnectDataType.FLOAT64);
-		simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, "GENERAL ENG THROTTLE LEVER POSITION:1", "PERCENT", SimConnectDataType.FLOAT64);
+		for (MyDataDefinitionWrapper d : this.aircraftData) {
+			simconnect.addToDataDefinition(DATA_DEFINITION_ID.AIRCRAFT_DETAIL, d.getVarName(), d.getUnitsName(), d.getDataType());
+		}
+		for (MyDataDefinitionWrapper d : this.boatData) {
+			simconnect.addToDataDefinition(DATA_DEFINITION_ID.BOAT_DETAIL, d.getVarName(), d.getUnitsName(), d.getDataType());
+		}
 
 		simconnect.subscribeToFacilities(FacilityListType.AIRPORT, REQUEST_ID.AIRPORTS_SCAN);
-		simconnect.subscribeToFacilities(FacilityListType.VOR, REQUEST_ID.VOR_SCAN);
+//		simconnect.subscribeToFacilities(FacilityListType.VOR, REQUEST_ID.VOR_SCAN);
 		simconnect.subscribeToFacilities(FacilityListType.NDB, REQUEST_ID.NDB_SCAN);
 		simconnect.subscribeToFacilities(FacilityListType.WAYPOINT, REQUEST_ID.WAYPOINTS_SCAN);
 

@@ -1,21 +1,28 @@
 package io.github.marcosox.fsxsaas.fsx;
 
 import flightsim.simconnect.SimConnect;
-import flightsim.simconnect.data.InitPosition;
-import flightsim.simconnect.data.LatLonAlt;
 import flightsim.simconnect.recv.*;
 import io.github.marcosox.fsxsaas.fsx.models.*;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+
 public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHandler, ExceptionHandler {
 	private final ObjectManager manager;
+	private final LinkedList<MyDataDefinitionWrapper> aircraftData;
+	private final LinkedList<MyDataDefinitionWrapper> boatData;
 
 	/**
 	 * Creates the object responsible for receiving the simconnect responses
 	 *
-	 * @param manager object manager to which the parsed objects will be passed
+	 * @param manager      object manager to which the parsed objects will be passed
+	 * @param aircraftData aircraft data definition objects ordered list
+	 * @param boatData     boat data definition objects ordered list
 	 */
-	FSXListener(ObjectManager manager) {
+	FSXListener(ObjectManager manager, LinkedList<MyDataDefinitionWrapper> aircraftData, LinkedList<MyDataDefinitionWrapper> boatData) {
 		this.manager = manager;
+		this.aircraftData = aircraftData;
+		this.boatData = boatData;
 	}
 
 	@Override
@@ -58,77 +65,43 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 
 	@Override
 	public void handleSimObjectType(SimConnect simConnect, RecvSimObjectDataByType e) {
-		System.out.println("handleSimObjectType");
 		int requestID = e.getRequestID();
 		if (requestID == REQUEST_ID.AIRCRAFTS_SCAN.ordinal()) {
-			System.out.println("Aircraft");
 			int entryNumber = e.getEntryNumber();
-			if (entryNumber == 1) {    // not 0 as docs say!
+			if (entryNumber == 1) {
+				System.out.println("received list of aircrafts");
 				manager.clearAircrafts();
 			}
 			int id = e.getObjectID();
 			if (id == 1) {
 				id = 0;    // fix user id to 0 only
 			}
-			String title = e.getDataString32();
-			String atcType = e.getDataString32();
-			String atcModel = e.getDataString32();
-			String atcID = e.getDataString32();
-			String atcAirline = e.getDataString64();
-			String atcFlightNumber = e.getDataString8();
-			String from = e.getDataString8();
-			String to = e.getDataString8();
-			LatLonAlt lla = e.getLatLonAlt();
-			double spd = e.getDataFloat64();
-			double groundSpd = e.getDataFloat64();
-			double agl = e.getDataFloat64();
-			double pit = e.getDataFloat64();
-			double bnk = e.getDataFloat64();
-			double hdg = e.getDataFloat64();
-			double aileron = e.getDataFloat64();
-			double elevator = e.getDataFloat64();
-			double rudder = e.getDataFloat64();
-			double throttle = e.getDataFloat64();    //doesnt work?
+			HashMap<String, Object> map = new HashMap<>();
+			for (MyDataDefinitionWrapper d : this.aircraftData) {
+				map.put(d.getVarName(), d.getValue(e));
+			}
+			try {
+				manager.addAircraft(new Aircraft(id, map));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 
-			InitPosition ip = new InitPosition();
-			ip.setLatLonAlt(lla);
-			ip.onGround = false; // set it manually because we didn't receive it
-			ip.pitch = (pit);
-			ip.bank = (bnk);
-			ip.heading = (hdg);
-			ip.airspeed = (int) Math.floor(spd);
-
-			manager.addAircraft(new Aircraft(id, title, atcType,
-					atcModel,
-					atcID,
-					atcAirline,
-					atcFlightNumber, ip, groundSpd, agl, aileron, elevator, rudder, throttle, from, to));
 		} else if (requestID == REQUEST_ID.BOATS_SCAN.ordinal()) {
-			System.out.println("Boat");
 			int entryNumber = e.getEntryNumber();
-			if (entryNumber == 1) {    // not 0 as docs say!
+			if (entryNumber == 1) {
 				manager.clearBoats();
+				System.out.println("received list of boats");
 			}
 			int id = e.getObjectID();
-			String title = e.getDataString32();
-			LatLonAlt lla = e.getLatLonAlt();
-			double spd = e.getDataFloat64();
-			double groundSpd = e.getDataFloat64();
-			double agl = e.getDataFloat64();
-			double bnk = e.getDataFloat64();
-			double hdg = e.getDataFloat64();
-			double rudder = e.getDataFloat64();
-			double throttle = e.getDataFloat64();    //doesnt work?
-
-			InitPosition ip = new InitPosition();
-			ip.setLatLonAlt(lla);
-			ip.onGround = false; // set it manually because we didn't receive it
-			ip.pitch = (0);
-			ip.bank = (bnk);
-			ip.heading = (hdg);
-			ip.airspeed = (int) Math.floor(spd);
-
-			manager.addBoat(new Boat(id, title, ip, groundSpd, agl, rudder, throttle));
+			HashMap<String, Object> map = new HashMap<>();
+			for (MyDataDefinitionWrapper d : this.boatData) {
+				map.put(d.getVarName(), d.getValue(e));
+			}
+			try {
+				manager.addBoat(new Boat(id, map));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 }
