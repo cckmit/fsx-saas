@@ -42,39 +42,6 @@ public class Aircraft {
 	private BigDecimal ambientPressure;
 	private BigDecimal barometerPressure;
 
-//	public Aircraft(int id, String title, String atcType, String atcModel, String atcID, String atcAirline, String atcFlightNumber, int atcHeavy, String atcState,
-//					String transponder, InitPosition ip, double verticalSpeed, double groundSpeed, double altAgl, int onGround, double aileron, double elevator, double rudder, double throttle, String from, String to, double windSpeed, double windDirection) {
-//		this.id = id;
-//		this.title = title;
-//		this.atcType = atcType;
-//		this.atcModel = atcModel;
-//		this.atcID = atcID;
-//		this.atcAirline = atcAirline;
-//		this.atcFlightNumber = atcFlightNumber;
-//		this.atcHeavy = atcHeavy;
-//		this.atcState = atcState;
-//		this.transponder = transponder;
-//		this.latitude = ip.latitude;
-//		this.longitude = ip.longitude;
-//		this.altitude = ip.altitude;
-//		this.airspeed = ip.airspeed +0.0;
-//		this.verticalSpeed = verticalSpeed;
-//		this.groundSpeed = groundSpeed;
-//		this.pitch = ip.pitch;
-//		this.bank = ip.bank;
-//		this.heading = ip.heading;
-//		this.altAgl = altAgl;
-//		this.onGround = onGround;
-//		this.aileron = aileron;
-//		this.elevator = elevator;
-//		this.rudder = rudder;
-//		this.throttle = throttle;
-//		this.from = from;
-//		this.to = to;
-//		this.windSpeed = windSpeed;
-//		this.windDirection = windDirection;
-//	}
-
 	public Aircraft(int id, HashMap<String, Object> map) {
 		this.id = id;
 		this.title = (String) map.getOrDefault("TITLE", "");

@@ -60,6 +60,7 @@ class MyDataDefinitionWrapper {
 		} else if (dataType == SimConnectDataType.MARKERSTATE) {
 			return e.getMarkerState();
 		} else {
+			System.err.println("Couldn't get value for " + getVarName());
 			return null;
 		}
 	}

@@ -21,21 +21,6 @@ public class Boat {
 	private BigDecimal rudder;
 	private BigDecimal throttle;
 
-//	public Boat(int id, String title, InitPosition ip, double groundSpeed, double altAgl, double rudder, double throttle) {
-//		this.id = id;
-//		this.title = title;
-//		this.latitude = ip.latitude;
-//		this.longitude = ip.longitude;
-//		this.altitude = ip.altitude;
-//		this.airspeed = ip.airspeed;
-//		this.groundSpeed = groundSpeed;
-//		this.bank = ip.bank;
-//		this.heading = ip.heading;
-//		this.altAgl = altAgl;
-//		this.rudder = rudder;
-//		this.throttle = throttle;
-//	}
-
 	public Boat(int id, HashMap<String, Object> map) {
 		this.id = id;
 		this.title = (String) map.getOrDefault("TITLE", "");

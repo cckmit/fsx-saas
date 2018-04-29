@@ -11,6 +11,8 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 	private final ObjectManager manager;
 	private final LinkedList<MyDataDefinitionWrapper> aircraftData;
 	private final LinkedList<MyDataDefinitionWrapper> boatData;
+	private final LinkedList<MyDataDefinitionWrapper> vehicleData;
+	private final LinkedList<MyDataDefinitionWrapper> helicopterData;
 
 	/**
 	 * Creates the object responsible for receiving the simconnect responses
@@ -18,11 +20,18 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 	 * @param manager      object manager to which the parsed objects will be passed
 	 * @param aircraftData aircraft data definition objects ordered list
 	 * @param boatData     boat data definition objects ordered list
+	 * @param vehicleData  vehicle data definition objects ordered list
 	 */
-	FSXListener(ObjectManager manager, LinkedList<MyDataDefinitionWrapper> aircraftData, LinkedList<MyDataDefinitionWrapper> boatData) {
+	FSXListener(ObjectManager manager,
+				LinkedList<MyDataDefinitionWrapper> aircraftData,
+				LinkedList<MyDataDefinitionWrapper> helicopterData,
+				LinkedList<MyDataDefinitionWrapper> boatData,
+				LinkedList<MyDataDefinitionWrapper> vehicleData) {
 		this.manager = manager;
 		this.aircraftData = aircraftData;
+		this.helicopterData = helicopterData;
 		this.boatData = boatData;
+		this.vehicleData = vehicleData;
 	}
 
 	@Override
@@ -72,35 +81,82 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 				System.out.println("received list of aircrafts");
 				manager.clearAircrafts();
 			}
-			int id = e.getObjectID();
-			if (id == 1) {
-				id = 0;    // fix user id to 0 only
-			}
-			HashMap<String, Object> map = new HashMap<>();
-			for (MyDataDefinitionWrapper d : this.aircraftData) {
-				map.put(d.getVarName(), d.getValue(e));
-			}
-			try {
-				manager.addAircraft(new Aircraft(id, map));
-			} catch (Exception ex) {
-				ex.printStackTrace();
+			if (e.hasRemaining()) {
+				try {
+					int id = e.getObjectID();
+					if (id == 1) {
+						id = 0;    // fix user id to 0 only
+					}
+					HashMap<String, Object> map = new HashMap<>();
+					for (MyDataDefinitionWrapper d : this.aircraftData) {
+//						System.out.println(d.getVarName()+" - AIRCRAFTS");
+						map.put(d.getVarName(), d.getValue(e));
+					}
+					manager.addAircraft(new Aircraft(id, map));
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 
+		} else if (requestID == REQUEST_ID.HELICOPTERS_SCAN.ordinal()) {
+			int entryNumber = e.getEntryNumber();
+			if (entryNumber == 1) {
+				manager.clearHelicopters();
+				System.out.println("received list of helicopters");
+			}
+			if (e.hasRemaining()) {
+				try {
+					int id = e.getObjectID();
+					if (id == 1) {
+						id = 0;    // fix user id to 0 only
+					}
+					HashMap<String, Object> map = new HashMap<>();
+					for (MyDataDefinitionWrapper d : this.helicopterData) {
+//						System.out.println(d.getVarName() + " - HELICOPTERS");
+						map.put(d.getVarName(), d.getValue(e));
+					}
+					manager.addHelicopter(new Aircraft(id, map));
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
 		} else if (requestID == REQUEST_ID.BOATS_SCAN.ordinal()) {
 			int entryNumber = e.getEntryNumber();
 			if (entryNumber == 1) {
 				manager.clearBoats();
 				System.out.println("received list of boats");
 			}
-			int id = e.getObjectID();
-			HashMap<String, Object> map = new HashMap<>();
-			for (MyDataDefinitionWrapper d : this.boatData) {
-				map.put(d.getVarName(), d.getValue(e));
+			if (e.hasRemaining()) {
+				try {
+					int id = e.getObjectID();
+					HashMap<String, Object> map = new HashMap<>();
+					for (MyDataDefinitionWrapper d : this.boatData) {
+//						System.out.println(d.getVarName()+" - BOATS");
+						map.put(d.getVarName(), d.getValue(e));
+					}
+					manager.addBoat(new Boat(id, map));
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
-			try {
-				manager.addBoat(new Boat(id, map));
-			} catch (Exception ex) {
-				ex.printStackTrace();
+		} else if (requestID == REQUEST_ID.VEHICLES_SCAN.ordinal()) {
+			int entryNumber = e.getEntryNumber();
+			if (entryNumber == 1) {
+				manager.clearVehicles();
+				System.out.println("received list of ground vehicles");
+			}
+			if (e.hasRemaining()) {
+				try {
+					int id = e.getObjectID();
+					HashMap<String, Object> map = new HashMap<>();
+					for (MyDataDefinitionWrapper d : this.vehicleData) {
+//						System.out.println(d.getVarName()+" - VEHICLES");
+						map.put(d.getVarName(), d.getValue(e));
+					}
+					manager.addVehicle(new Vehicle(id, map));
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		}
 	}

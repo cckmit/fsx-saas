@@ -49,8 +49,12 @@ public class MainVerticle extends AbstractVerticle {
 
 		router.get("/aircrafts").handler(r -> this.handleGetAll(r, manager.getAircrafts()));
 		router.get("/aircrafts/:id").handler(r -> this.handleGetItem(r, manager.getAircrafts()));
+		router.get("/helicopters").handler(r -> this.handleGetAll(r, manager.getHelicopters()));
+		router.get("/helicopters/:id").handler(r -> this.handleGetItem(r, manager.getHelicopters()));
 		router.get("/boats").handler(r -> this.handleGetAll(r, manager.getBoats()));
 		router.get("/boats/:id").handler(r -> this.handleGetItem(r, manager.getBoats()));
+		router.get("/vehicles").handler(r -> this.handleGetAll(r, manager.getVehicles()));
+		router.get("/vehicles/:id").handler(r -> this.handleGetItem(r, manager.getVehicles()));
 		router.get("/airports").handler(r -> this.handleGetAll(r, manager.getAirports()));
 		router.get("/airports/:id").handler(r -> this.handleGetItem(r, manager.getAirports()));
 		router.get("/vors").handler(r -> this.handleGetAll(r, manager.getVors()));
@@ -89,12 +93,14 @@ public class MainVerticle extends AbstractVerticle {
 	 */
 	private void handleRootURL(RoutingContext routingContext, List<Route> routes) {
 		StringBuilder routesList = new StringBuilder();
+		routesList.append("<ul>");
 		for (Route r : routes) {
 			if (r.getPath() != null) {
-				routesList.append(r.getPath()).append("\n");
+				routesList.append("<li><a href='").append(r.getPath()).append("'>").append(r.getPath()).append("</a></li>");
 			}
 		}
-		routingContext.response().putHeader("content-type", "text/plain").end(routesList.toString());
+		routesList.append("</ul>");
+		routingContext.response().putHeader("content-type", "text/html").end(routesList.toString());
 	}
 
 	/**
