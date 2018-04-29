@@ -80,8 +80,12 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 			if (entryNumber == 1) {
 				System.out.println("received list of aircrafts");
 				manager.clearAircrafts();
+			} else if (entryNumber == 0) {
+				System.out.println("no aircrafts present at the moment.");
+				manager.clearAircrafts();
 			}
-			if (e.hasRemaining()) {
+			System.out.println("Entry " + entryNumber + "/" + e.getOutOf());
+			if (entryNumber > 0) {
 				try {
 					int id = e.getObjectID();
 					if (id == 1) {
@@ -103,8 +107,12 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 			if (entryNumber == 1) {
 				manager.clearHelicopters();
 				System.out.println("received list of helicopters");
+			} else if (entryNumber == 0) {
+				System.out.println("no helicopters present at the moment.");
+				manager.clearHelicopters();
 			}
-			if (e.hasRemaining()) {
+			System.out.println("Entry " + entryNumber + "/" + e.getOutOf());
+			if (entryNumber > 0) {
 				try {
 					int id = e.getObjectID();
 					if (id == 1) {
@@ -125,8 +133,12 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 			if (entryNumber == 1) {
 				manager.clearBoats();
 				System.out.println("received list of boats");
+			} else if (entryNumber == 0) {
+				System.out.println("no boats present at the moment.");
+				manager.clearBoats();
 			}
-			if (e.hasRemaining()) {
+			System.out.println("Entry " + entryNumber + "/" + e.getOutOf());
+			if (entryNumber > 0) {
 				try {
 					int id = e.getObjectID();
 					HashMap<String, Object> map = new HashMap<>();
@@ -144,8 +156,12 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 			if (entryNumber == 1) {
 				manager.clearVehicles();
 				System.out.println("received list of ground vehicles");
+			} else if (entryNumber == 0) {
+				System.out.println("no ground vehicles present at the moment.");
+				manager.clearVehicles();
 			}
-			if (e.hasRemaining()) {
+			System.out.println("Entry " + entryNumber + "/" + e.getOutOf());
+			if (entryNumber > 0) {
 				try {
 					int id = e.getObjectID();
 					HashMap<String, Object> map = new HashMap<>();
