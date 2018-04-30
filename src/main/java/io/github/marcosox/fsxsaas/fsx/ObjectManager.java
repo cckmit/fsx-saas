@@ -19,6 +19,7 @@ public class ObjectManager {
 	private final Object boatsLock = new Object();
 	private final Object vehiclesLock = new Object();
 	private final Object helicoptersLock = new Object();
+	private String metar = "";
 
 	void addAircraft(Aircraft aircraft) {
 		synchronized (this.aircraftsLock) {
@@ -157,5 +158,13 @@ public class ObjectManager {
 		clearVORs();
 		clearNDBs();
 		clearWaypoints();
+	}
+
+	void setMetar(String metar) {
+		this.metar = metar;
+	}
+
+	public String getMetar() {
+		return metar;
 	}
 }

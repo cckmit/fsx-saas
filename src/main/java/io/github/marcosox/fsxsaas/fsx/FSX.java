@@ -185,6 +185,12 @@ public class FSX {
 
 		this.trafficScanID = Vertx.vertx().setPeriodic(scanInterval, e -> {
 			try {
+				// check if user position is known and request metar
+				if (manager.getAircrafts().containsKey("0")) {
+					simconnect.weatherRequestObservationAtNearestStation(REQUEST_ID.METAR,
+							manager.getAircrafts().get("0").getLatitude().floatValue(),
+							manager.getAircrafts().get("0").getLongitude().floatValue());
+				}
 				simconnect.requestDataOnSimObjectType(REQUEST_ID.AIRCRAFTS_SCAN, DATA_DEFINITION_ID.AIRCRAFT_DETAIL, 0, SimObjectType.AIRCRAFT);
 				simconnect.requestDataOnSimObjectType(REQUEST_ID.HELICOPTERS_SCAN, DATA_DEFINITION_ID.HELICOPTER_DETAIL, 0, SimObjectType.HELICOPTER);
 				simconnect.requestDataOnSimObjectType(REQUEST_ID.BOATS_SCAN, DATA_DEFINITION_ID.BOAT_DETAIL, 0, SimObjectType.BOAT);

@@ -63,6 +63,7 @@ public class MainVerticle extends AbstractVerticle {
 		router.get("/ndbs/:id").handler(r -> this.handleGetItem(r, manager.getNDBs()));
 		router.get("/waypoints").handler(r -> this.handleGetAll(r, manager.getWaypoints()));
 		router.get("/waypoints/:id").handler(r -> this.handleGetItem(r, manager.getWaypoints()));
+		router.get("/metar").handler(this::handleMetar);
 		router.get("/cmd/:command").handler(this::handleFsxCommand);
 		router.get("/shutdown").handler(r -> this.quit(r, 0));
 		List<Route> routes = router.getRoutes();
@@ -71,6 +72,10 @@ public class MainVerticle extends AbstractVerticle {
 		int port = config().getInteger("port", DEFAULT_PORT);
 		vertx.createHttpServer().requestHandler(router::accept).listen(port);
 		System.out.println("HTTP server ready and listening on port " + port);
+	}
+
+	private void handleMetar(RoutingContext routingContext) {
+		routingContext.response().putHeader("content-type", "text/plain").end(manager.getMetar());
 	}
 
 	/**

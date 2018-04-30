@@ -7,7 +7,7 @@ import io.github.marcosox.fsxsaas.fsx.models.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHandler, ExceptionHandler {
+public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHandler, WeatherObservationHandler, ExceptionHandler {
 	private final ObjectManager manager;
 	private final LinkedList<MyDataDefinitionWrapper> aircraftData;
 	private final LinkedList<MyDataDefinitionWrapper> boatData;
@@ -174,6 +174,16 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 					ex.printStackTrace();
 				}
 			}
+		}
+	}
+
+	@Override
+	public void handleWeatherObservation(SimConnect simConnect, RecvWeatherObservation e) {
+		int requestID = e.getRequestID();
+		if (requestID == REQUEST_ID.METAR.ordinal()) {
+			System.out.println("received METAR");
+			String metar = e.getMetar();
+			manager.setMetar(metar);
 		}
 	}
 }
