@@ -12,11 +12,11 @@ An example of use of this application is [FSX web ATC](https://github.com/marcos
 FSX-saas is portable, you just need to download the latest jar from the [releases page] and run it.
 
 ## Usage
-    java -jar path/to/fsx-saas-1.0.0.jar
+    java -jar path/to/fsx-saas-x.y.z.jar
     
 To change the application parameters pass the path of a json configuration file:
 
-    java -jar path/to/fsx-saas-1.0.0.jar -conf path/to/config.json
+    java -jar path/to/fsx-saas-x.y.z.jar -conf path/to/config.json
 
 The complete configuration file is this:
 
@@ -35,8 +35,8 @@ For more informations see the [help page](http://vertx.io/docs/vertx-core/java/#
 ## Quick start and examples
 - Start FSX and load a flight
 - Start FSX-saas
-- open your browser and point it to [http://127.0.0.1:8080/](http://127.0.0.1:8080/) to see all the available API endpoints
-- See all the aircrafts: [http://127.0.0.1:8080/aircrafts](http://127.0.0.1:8080/aircrafts)
+- open your browser and point it to [http://localhost:8080/](http://localhost:8080/) to see all the available API endpoints
+- See all the aircrafts: [http://localhost:8080/aircrafts](http://localhost:8080/aircrafts)
 ```
 [ {
   "id" : 990,
@@ -63,7 +63,7 @@ For more informations see the [help page](http://vertx.io/docs/vertx-core/java/#
 }, {
 ...
 ```
-- See user aircraft: [http://127.0.0.1:8080/aircrafts/0](http://127.0.0.1:8080/aircrafts/0)
+- See user aircraft: [http://localhost:8080/aircrafts/0](http://localhost:8080/aircrafts/0)
 ```
 {
   "id" : 0,
@@ -89,7 +89,7 @@ For more informations see the [help page](http://vertx.io/docs/vertx-core/java/#
   "throttle" : 73.236083984375
 }
 ```
-- See all the vors: [http://127.0.0.1:8080/vors](http://127.0.0.1:8080/vors)
+- See all the vors: [http://localhost:8080/vors](http://localhost:8080/vors)
 ```
 [ {
   "icao" : "ITL",
@@ -106,7 +106,7 @@ For more informations see the [help page](http://vertx.io/docs/vertx-core/java/#
 }, {
 ...
 ```
-- See all the airports: [http://127.0.0.1:8080/airports](http://127.0.0.1:8080/airports)
+- See all the airports: [http://localhost:8080/airports](http://localhost:8080/airports)
 ```
 [ {
   "icao" : "WA77",
