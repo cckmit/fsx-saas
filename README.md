@@ -2,15 +2,21 @@
 
 FSX informations exposed by a JSON HTTP API server
 
-## Installation
+This can be used to interface other programs with a running FSX instance via HTTP requests.
+
+The exposed data is read-only (e.g. only LIST and RETRIEVE actions are supported).
+
+An example of use of this application is [FSX web ATC](https://github.com/marcosox/fsx-web-atc), which shows the data in a web map.
+
+## Download and installation
 FSX-saas is portable, you just need to download the latest jar from the [releases page] and run it.
 
 ## Usage
-    java -jar path/to/fsx-saas-1.0.0.jar
+    java -jar path/to/fsx-saas-x.y.z.jar
     
 To change the application parameters pass the path of a json configuration file:
 
-    java -jar path/to/fsx-saas-1.0.0.jar -conf path/to/config.json
+    java -jar path/to/fsx-saas-x.y.z.jar -conf path/to/config.json
 
 The complete configuration file is this:
 
@@ -29,85 +35,61 @@ For more informations see the [help page](http://vertx.io/docs/vertx-core/java/#
 ## Quick start and examples
 - Start FSX and load a flight
 - Start FSX-saas
-- open your browser and point it to [http://127.0.0.1:8080/](http://127.0.0.1:8080/) to see all the available API endpoints
-- See all the aircrafts: [http://127.0.0.1:8080/aircrafts](http://127.0.0.1:8080/aircrafts)
+- open your browser and point it to [http://localhost:8080/](http://localhost:8080/) to see all the available API endpoints
+- See all the aircrafts: [http://localhost:8080/aircrafts](http://localhost:8080/aircrafts)
 ```
 [ {
-   "id" : 1187,
-    "title" : "McDonnell-Douglas/Boeing MD-83",
-    "atcType" : "Boeing",
-    "atcModel" : "MD80",
-    "atcID" : "I-MAFW",
-    "atcAirline" : "Soar",
-    "atcFlightNumber" : "3382",
-    "atcHeavy" : 0,
-    "atcState" : "enroute",
-    "from" : "EDDF",
-    "to" : "LIRF",
-    "latitude" : 41.707100915,
-    "longitude" : 12.331678205,
-    "altitude" : 775.67,
-    "altAgl" : 2544.86,
-    "onGround" : 0,
-    "airspeed" : 222.81,
-    "groundSpeed" : 223.31,
-    "verticalSpeed" : -2.422,
-    "pitch" : -0.058,
-    "bank" : 0.000,
-    "heading" : 317.456,
-    "aileron" : -0.00042724609375,
-    "elevator" : 0.1611328125,
-    "rudder" : 0.002197265625,
-    "throttle" : 20.64208984375,
-    "transponder" : "4263",
-    "windSpeed" : 0.00,
-    "windDirection" : 0.00,
-    "visibility" : 10000000,
-    "ambientTemperature" : 10.19,
-    "ambientPressure" : 27.27,
-    "barometerPressure" : 923.55
+  "id" : 990,
+  "title" : "de Havilland Dash 8-100 Paint2",
+  "atcType" : "DeHavilland",
+  "atcModel" : "DH8A",
+  "atcID" : "N7048R",
+  "atcAirline" : "American Pacific",
+  "atcFlightNumber" : "1123",
+  "from" : "KBFI",
+  "to" : "KIDA",
+  "latitude" : 47.524769343755345,
+  "longitude" : -122.29564771099874,
+  "altitude" : 25.338651001296956,
+  "altAgl" : 7.339984247004242,
+  "airspeed" : 0,
+  "pitch" : 0.002319927327334881,
+  "bank" : 0.0,
+  "heading" : 56.78009212492774,
+  "aileron" : 0.0,
+  "elevator" : 0.0,
+  "rudder" : 0.0,
+  "throttle" : 0.0
 }, {
 ...
 ```
-- See user aircraft: [http://127.0.0.1:8080/aircrafts/0](http://127.0.0.1:8080/aircrafts/0)
+- See user aircraft: [http://localhost:8080/aircrafts/0](http://localhost:8080/aircrafts/0)
 ```
 {
-   "id" : 0,
-    "title" : "Aircreation582SL red",
-    "atcType" : "Ultralight",
-    "atcModel" : "trike",
-    "atcID" : "",
-    "atcAirline" : "",
-    "atcFlightNumber" : "",
-    "atcHeavy" : 0,
-    "atcState" : "init",
-    "from" : "",
-    "to" : "",
-    "latitude" : 41.795835751,
-    "longitude" : 12.252768755,
-    "altitude" : 70.11,
-    "altAgl" : 216.02,
-    "onGround" : 0,
-    "airspeed" : 0.00,
-    "groundSpeed" : 0.00,
-    "verticalSpeed" : 0.000,
-    "pitch" : 0.118,
-    "bank" : 0.000,
-    "heading" : 342.649,
-    "aileron" : -0.00006103515625,
-    "elevator" : -0.00006103515625,
-    "rudder" : -0.00006103515625,
-    "throttle" : 0,
-    "transponder" : "1200",
-    "windSpeed" : 0.00,
-    "windDirection" : 0.00,
-    "visibility" : 10000000,
-    "ambientTemperature" : 14.77,
-    "ambientPressure" : 29.67,
-    "barometerPressure" : 1004.81
+  "id" : 0,
+  "title" : "Aircreation582SL red",
+  "atcType" : "Ultralight",
+  "atcModel" : "trike",
+  "atcID" : "",
+  "atcAirline" : "",
+  "atcFlightNumber" : "",
+  "from" : "",
+  "to" : "",
+  "latitude" : 48.502472910349816,
+  "longitude" : -123.01101544961938,
+  "altitude" : 1607.6589068715653,
+  "altAgl" : 1607.6588833676299,
+  "airspeed" : 52,
+  "pitch" : 0.026875153183937073,
+  "bank" : -2.423224722577144E-4,
+  "heading" : 357.5731996999381,
+  "aileron" : -6.103515625E-5,
+  "elevator" : -6.103515625E-5,
+  "rudder" : -6.103515625E-5,
+  "throttle" : 73.236083984375
 }
 ```
-- See all the vors: [http://127.0.0.1:8080/vors](http://127.0.0.1:8080/vors)
+- See all the vors: [http://localhost:8080/vors](http://localhost:8080/vors)
 ```
 [ {
   "icao" : "ITL",
@@ -124,7 +106,7 @@ For more informations see the [help page](http://vertx.io/docs/vertx-core/java/#
 }, {
 ...
 ```
-- See all the airports: [http://127.0.0.1:8080/airports](http://127.0.0.1:8080/airports)
+- See all the airports: [http://localhost:8080/airports](http://localhost:8080/airports)
 ```
 [ {
   "icao" : "WA77",
@@ -144,6 +126,7 @@ For more informations see the [help page](http://vertx.io/docs/vertx-core/java/#
 }, {
 ...
 ```
+
 Please note that data is limited to what FSX returns:
 - aircrafts only exist in fsx inside a 199km radius around user aircraft
 - same thing for airports and navigation aids, but since they have a fixed position,
