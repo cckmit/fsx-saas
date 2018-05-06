@@ -16,6 +16,7 @@ public class Aircraft {
 	private String atcAirline;
 	private String atcFlightNumber;
 	private int atcHeavy;
+	private boolean ifr;
 	private String atcState;
 	private String from;
 	private String to;
@@ -54,7 +55,7 @@ public class Aircraft {
 		this.atcState = (String) map.getOrDefault("AI TRAFFIC STATE", "");
 		this.from = (String) map.getOrDefault("AI TRAFFIC FROMAIRPORT", "");
 		this.to = (String) map.getOrDefault("AI TRAFFIC TOAIRPORT", "");
-		this.to = (String) map.getOrDefault("AI TRAFFIC TOAIRPORT", "");
+		this.ifr = ((int) map.getOrDefault("AI TRAFFIC ISIFR", 0)) == 1;
 		StringBuilder transponderStr = new StringBuilder(String.valueOf(map.getOrDefault("TRANSPONDER CODE:1", "")));
 		while (transponderStr.length() < 4) {
 			transponderStr.insert(0, "0");    // leftpad(map.getOrDefault(...), 4, "0");
@@ -173,6 +174,10 @@ public class Aircraft {
 
 	public int getAtcHeavy() {
 		return atcHeavy;
+	}
+
+	public boolean getIFR() {
+		return ifr;
 	}
 
 	public String getAtcState() {

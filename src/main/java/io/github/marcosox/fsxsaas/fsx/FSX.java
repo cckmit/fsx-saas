@@ -62,6 +62,7 @@ public class FSX {
 		this.aircraftData.addLast(new MyDataDefinitionWrapper("ATC FLIGHT NUMBER", null, SimConnectDataType.STRING8));
 		this.aircraftData.addLast(new MyDataDefinitionWrapper("ATC HEAVY", null, SimConnectDataType.INT32));
 		this.aircraftData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC STATE", null, SimConnectDataType.STRING8));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC ISIFR", null, SimConnectDataType.INT32));
 		this.aircraftData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC FROMAIRPORT", null, SimConnectDataType.STRING8));
 		this.aircraftData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC TOAIRPORT", null, SimConnectDataType.STRING8));
 		this.aircraftData.addLast(new MyDataDefinitionWrapper("TRANSPONDER CODE:1", null, SimConnectDataType.INT32));

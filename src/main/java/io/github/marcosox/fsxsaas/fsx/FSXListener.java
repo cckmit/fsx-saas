@@ -84,7 +84,7 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 				System.out.println("no aircrafts present at the moment.");
 				manager.clearAircrafts();
 			}
-			System.out.println("Entry " + entryNumber + "/" + e.getOutOf());
+//			System.out.println("Entry " + entryNumber + "/" + e.getOutOf());
 			if (entryNumber > 0) {
 				try {
 					int id = e.getObjectID();
@@ -111,7 +111,7 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 				System.out.println("no helicopters present at the moment.");
 				manager.clearHelicopters();
 			}
-			System.out.println("Entry " + entryNumber + "/" + e.getOutOf());
+//			System.out.println("Entry " + entryNumber + "/" + e.getOutOf());
 			if (entryNumber > 0) {
 				try {
 					int id = e.getObjectID();
@@ -137,7 +137,7 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 				System.out.println("no boats present at the moment.");
 				manager.clearBoats();
 			}
-			System.out.println("Entry " + entryNumber + "/" + e.getOutOf());
+//			System.out.println("Entry " + entryNumber + "/" + e.getOutOf());
 			if (entryNumber > 0) {
 				try {
 					int id = e.getObjectID();
@@ -160,7 +160,7 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 				System.out.println("no ground vehicles present at the moment.");
 				manager.clearVehicles();
 			}
-			System.out.println("Entry " + entryNumber + "/" + e.getOutOf());
+//			System.out.println("Entry " + entryNumber + "/" + e.getOutOf());
 			if (entryNumber > 0) {
 				try {
 					int id = e.getObjectID();
