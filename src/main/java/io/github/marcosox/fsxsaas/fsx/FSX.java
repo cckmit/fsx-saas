@@ -180,9 +180,9 @@ public class FSX {
 			simconnect.addToDataDefinition(DATA_DEFINITION_ID.VEHICLE_DETAIL, d.getVarName(), d.getUnitsName(), d.getDataType());
 		}
 		simconnect.subscribeToFacilities(FacilityListType.AIRPORT, EVENT_ID.AIRPORTS_SCAN);
-//		simconnect.subscribeToFacilities(FacilityListType.VOR, EVENT_ID.VOR_SCAN);
+		simconnect.subscribeToFacilities(FacilityListType.VOR, EVENT_ID.VOR_SCAN);
 		simconnect.subscribeToFacilities(FacilityListType.NDB, EVENT_ID.NDB_SCAN);
-//		simconnect.subscribeToFacilities(FacilityListType.WAYPOINT, EVENT_ID.WAYPOINTS_SCAN);
+		simconnect.subscribeToFacilities(FacilityListType.WAYPOINT, EVENT_ID.WAYPOINTS_SCAN);
 
 		this.trafficScanID = Vertx.vertx().setPeriodic(scanInterval, e -> {
 			try {

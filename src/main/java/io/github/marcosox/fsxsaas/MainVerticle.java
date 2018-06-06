@@ -151,10 +151,12 @@ public class MainVerticle extends AbstractVerticle {
 		String msg;
 		switch (cmd) {
 			case "help": {
-				msg = "start: start simconnect\n" +
-						"stop: stop simconnect\n" +
-						"restart: guess what\n" +
-						"clear: clears all fsx objects from memory (aircrafts, vors, airports etc.)";
+				msg = "<ul>" +
+						"<li>start: start simconnect</li>" +
+						"<li>stop: stop simconnect</li>" +
+						"<li>restart: guess what</li>" +
+						"<li>clear: clears all fsx objects from memory (aircrafts, vors, airports etc.)</li>" +
+						"</ul>";
 				break;
 			}
 			case "stop": {
@@ -199,7 +201,7 @@ public class MainVerticle extends AbstractVerticle {
 		}
 		JsonObject responseMsg = new JsonObject();
 		responseMsg.put("response", msg);
-		routingContext.response().putHeader("content-type", "application/json").end(responseMsg.encodePrettily());
+		routingContext.response().putHeader("content-type", "text/html").end(msg);
 	}
 
 	/**
