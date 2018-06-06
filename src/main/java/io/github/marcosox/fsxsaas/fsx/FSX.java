@@ -61,7 +61,7 @@ public class FSX {
 		this.aircraftData.addLast(new MyDataDefinitionWrapper("ATC AIRLINE", null, SimConnectDataType.STRING64));
 		this.aircraftData.addLast(new MyDataDefinitionWrapper("ATC FLIGHT NUMBER", null, SimConnectDataType.STRING8));
 		this.aircraftData.addLast(new MyDataDefinitionWrapper("ATC HEAVY", null, SimConnectDataType.INT32));
-		this.aircraftData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC STATE", null, SimConnectDataType.STRING8));
+		this.aircraftData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC STATE", null, SimConnectDataType.STRING32));
 		this.aircraftData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC ISIFR", null, SimConnectDataType.INT32));
 		this.aircraftData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC FROMAIRPORT", null, SimConnectDataType.STRING8));
 		this.aircraftData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC TOAIRPORT", null, SimConnectDataType.STRING8));
@@ -93,7 +93,7 @@ public class FSX {
 		this.helicopterData.addLast(new MyDataDefinitionWrapper("ATC AIRLINE", null, SimConnectDataType.STRING32));
 		this.helicopterData.addLast(new MyDataDefinitionWrapper("ATC FLIGHT NUMBER", null, SimConnectDataType.STRING8));
 		this.helicopterData.addLast(new MyDataDefinitionWrapper("ATC HEAVY", null, SimConnectDataType.INT32));
-		this.helicopterData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC STATE", null, SimConnectDataType.STRING8));
+		this.helicopterData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC STATE", null, SimConnectDataType.STRING32));
 		this.helicopterData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC FROMAIRPORT", null, SimConnectDataType.STRING8));
 		this.helicopterData.addLast(new MyDataDefinitionWrapper("AI TRAFFIC TOAIRPORT", null, SimConnectDataType.STRING8));
 		this.helicopterData.addLast(new MyDataDefinitionWrapper("TRANSPONDER CODE:1", null, SimConnectDataType.INT32));
@@ -179,10 +179,10 @@ public class FSX {
 		for (MyDataDefinitionWrapper d : this.vehicleData) {
 			simconnect.addToDataDefinition(DATA_DEFINITION_ID.VEHICLE_DETAIL, d.getVarName(), d.getUnitsName(), d.getDataType());
 		}
-		simconnect.subscribeToFacilities(FacilityListType.AIRPORT, REQUEST_ID.AIRPORTS_SCAN);
-		simconnect.subscribeToFacilities(FacilityListType.VOR, REQUEST_ID.VOR_SCAN);
-		simconnect.subscribeToFacilities(FacilityListType.NDB, REQUEST_ID.NDB_SCAN);
-		simconnect.subscribeToFacilities(FacilityListType.WAYPOINT, REQUEST_ID.WAYPOINTS_SCAN);
+		simconnect.subscribeToFacilities(FacilityListType.AIRPORT, EVENT_ID.AIRPORTS_SCAN);
+//		simconnect.subscribeToFacilities(FacilityListType.VOR, EVENT_ID.VOR_SCAN);
+		simconnect.subscribeToFacilities(FacilityListType.NDB, EVENT_ID.NDB_SCAN);
+//		simconnect.subscribeToFacilities(FacilityListType.WAYPOINT, EVENT_ID.WAYPOINTS_SCAN);
 
 		this.trafficScanID = Vertx.vertx().setPeriodic(scanInterval, e -> {
 			try {

@@ -78,7 +78,7 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 		if (requestID == REQUEST_ID.AIRCRAFTS_SCAN.ordinal()) {
 			int entryNumber = e.getEntryNumber();
 			if (entryNumber == 1) {
-				System.out.println("received list of aircrafts");
+				System.out.println("received list of " + e.getOutOf() + " aircrafts");
 				manager.clearAircrafts();
 			} else if (entryNumber == 0) {
 				System.out.println("no aircrafts present at the moment.");
@@ -106,7 +106,7 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 			int entryNumber = e.getEntryNumber();
 			if (entryNumber == 1) {
 				manager.clearHelicopters();
-				System.out.println("received list of helicopters");
+				System.out.println("received list of " + e.getOutOf() + " helicopters");
 			} else if (entryNumber == 0) {
 				System.out.println("no helicopters present at the moment.");
 				manager.clearHelicopters();
@@ -132,7 +132,7 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 			int entryNumber = e.getEntryNumber();
 			if (entryNumber == 1) {
 				manager.clearBoats();
-				System.out.println("received list of boats");
+				System.out.println("received list of " + e.getOutOf() + " boats");
 			} else if (entryNumber == 0) {
 				System.out.println("no boats present at the moment.");
 				manager.clearBoats();
@@ -155,7 +155,7 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 			int entryNumber = e.getEntryNumber();
 			if (entryNumber == 1) {
 				manager.clearVehicles();
-				System.out.println("received list of ground vehicles");
+				System.out.println("received list of " + e.getOutOf() + " ground vehicles");
 			} else if (entryNumber == 0) {
 				System.out.println("no ground vehicles present at the moment.");
 				manager.clearVehicles();

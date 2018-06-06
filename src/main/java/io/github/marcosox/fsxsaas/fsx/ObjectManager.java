@@ -64,7 +64,7 @@ public class ObjectManager {
 	public Map<String, Aircraft> getAircrafts() {
 		Map<String, Aircraft> val;
 		synchronized (this.aircraftsLock) {
-			val = this.aircrafts;
+			val = new HashMap<>(this.aircrafts);
 		}
 		return val;
 	}
@@ -72,7 +72,7 @@ public class ObjectManager {
 	public Map<String, Aircraft> getHelicopters() {
 		Map<String, Aircraft> val;
 		synchronized (this.helicoptersLock) {
-			val = this.helicopters;
+			val = new HashMap<>(this.helicopters);
 		}
 		return val;
 	}
@@ -80,7 +80,7 @@ public class ObjectManager {
 	public Map<String, Boat> getBoats() {
 		Map<String, Boat> val;
 		synchronized (this.boatsLock) {
-			val = this.boats;
+			val = new HashMap<>(this.boats);
 		}
 		return val;
 	}
@@ -88,7 +88,7 @@ public class ObjectManager {
 	public Map<String, Vehicle> getVehicles() {
 		Map<String, Vehicle> val;
 		synchronized (this.vehiclesLock) {
-			val = this.vehicles;
+			val = new HashMap<>(this.vehicles);
 		}
 		return val;
 	}
