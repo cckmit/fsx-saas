@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Security
 - nothing
 
-## [1.2.0] - 2016-10-19
+## [1.2.0] - 2018-06-06
 ### Added
 - METAR endpoint
 - IFR flag for aircrafts and helicopters
