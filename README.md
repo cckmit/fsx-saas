@@ -6,7 +6,7 @@ This can be used to interface other programs with a running FSX instance via HTT
 
 The exposed data is read-only (e.g. only LIST and RETRIEVE actions are supported).
 
-An example of use of this application is [FSX web ATC](https://github.com/marcosox/fsx-web-atc), which shows the data in a web map.
+An example of use of this application is [FSX web ATC](https://marcosox.github.io/fsx-web-atc/), which shows the data in a web map.
 
 ## Download and installation
 FSX-saas is portable, you just need to download the latest jar from the [releases page] and run it.
