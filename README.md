@@ -29,7 +29,7 @@ The complete configuration file is this:
 - `scanInterval`: milliseconds between aircraft requests to fsx
 
 #### Vertx options
-Since this application is packaged with a Vertx launcher, all the vertx options can be passed.
+Since this application is packaged with a Vertx launcher, all the vertx options can be passed from the command line.
 For more informations see the [help page](http://vertx.io/docs/vertx-core/java/#_the_vertx_command_line)
 
 ## Quick start and examples

@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class MainVerticle extends AbstractVerticle {
 	private final static String APP_NAME = "FSX simconnect as a service";
-	private final static String APP_VERSION = "1.2.0";
+	private final String APP_VERSION = getClass().getPackage().getSpecificationVersion();
 	private final static int DEFAULT_PORT = 8080;
 	private final static int DEFAULT_TRAFFIC_SCAN_INTERVAL_MS = 1000;
 
