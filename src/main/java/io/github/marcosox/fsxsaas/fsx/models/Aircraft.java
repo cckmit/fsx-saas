@@ -25,7 +25,7 @@ public class Aircraft {
 	private BigDecimal altitude;
 	private BigDecimal altAgl;
 	private int onGround;
-	private BigDecimal airspeed;
+	private BigDecimal airSpeed;
 	private BigDecimal groundSpeed;
 	private BigDecimal verticalSpeed;
 	private BigDecimal pitch;
@@ -64,7 +64,7 @@ public class Aircraft {
 		this.latitude = new BigDecimal(((LatLonAlt) map.getOrDefault("STRUCT LATLONALT", new LatLonAlt(0, 0, 0))).latitude);
 		this.longitude = new BigDecimal(((LatLonAlt) map.getOrDefault("STRUCT LATLONALT", new LatLonAlt(0, 0, 0))).longitude);
 		this.altitude = new BigDecimal(((LatLonAlt) map.getOrDefault("STRUCT LATLONALT", new LatLonAlt(0, 0, 0))).altitude);
-		this.airspeed = new BigDecimal((double) map.getOrDefault("AIRSPEED TRUE", 0.0));
+		this.airSpeed = new BigDecimal((double) map.getOrDefault("AIRSPEED TRUE", 0.0));
 		this.verticalSpeed = new BigDecimal((double) map.getOrDefault("VERTICAL SPEED", 0.0));
 		this.groundSpeed = new BigDecimal((double) map.getOrDefault("GROUND VELOCITY", 0.0));
 		this.pitch = new BigDecimal((double) map.getOrDefault("PLANE PITCH DEGREES", 0.0));
@@ -140,8 +140,8 @@ public class Aircraft {
 		return altAgl.setScale(2, RoundingMode.DOWN);
 	}
 
-	public BigDecimal getAirspeed() {
-		return airspeed.setScale(2, RoundingMode.DOWN);
+	public BigDecimal getAirSpeed() {
+		return airSpeed.setScale(2, RoundingMode.DOWN);
 	}
 
 	public BigDecimal getGroundSpeed() {
