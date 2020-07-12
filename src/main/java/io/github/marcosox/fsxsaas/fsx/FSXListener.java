@@ -40,13 +40,14 @@ public class FSXListener implements SimObjectDataTypeHandler, FacilitiesListHand
 		for (FacilityAirport f : list.getFacilities()) {
 			manager.addAirport(new Airport(f.getIcao(), f.getLatitude(), f.getLongitude(), f.getAltitude()));
 		}
+		System.out.println("end handleAirportList");
 	}
 
 	@Override
 	public void handleWaypointList(SimConnect simConnect, RecvWaypointList list) {
 		System.out.println("handleWaypointList");
 		for (FacilityWaypoint f : list.getFacilities()) {
-			manager.addWaypoint(new Waypoint(f.getIcao(), f.getLatitude(), f.getLongitude(), f.getAltitude(), f.getMagVar()));
+			manager.addWaypoint(new Waypoint(f.getIcao(), f.getLatitude(), f.getLongitude(), f.getAltitude(), 0));
 		}
 	}
 
